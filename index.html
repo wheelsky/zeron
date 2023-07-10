@@ -1,0 +1,195 @@
+<!DOCTYPE html><html lang="ru"><head>
+	<title>l2telegraph - LayerZero NFT bridge</title>
+	<meta charset="UTF-8">
+	<meta name="format-detection" content="telephone=no">
+	<link rel="stylesheet" href="css/style.min.css">
+	<!-- <link rel="shortcut icon" href="favicon.ico"> -->
+	<link rel="preconnect" href="https://icons-ckg.pages.dev">
+	<!-- <meta name="robots" content="noindex, nofollow"> -->
+	<!-- <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"> -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="js/ethers-5.2.umd.min.js" type="application/javascript"></script>
+    
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-C03GM3W3XX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-C03GM3W3XX');
+</script>
+</head>
+	<body>
+		<div class="wrapper">
+			<header class="header">
+	<div class="header__container">
+		<div class="header__logo"><img src="images/logo.png" alt></div>
+		<ul class="header__menu">
+			<li><a href="/">Send message</a></li>
+			<li><a href="https://l2telegraph.xyz/bridge/">Bridge NFT</a></li>
+			<li><a href="https://l2telegraph.xyz/bridgetokens/">Bridge Tokens</a></li>
+			<li><a href="https://github.com/LayerZero-Labs/LayerZero">How it works</a></li>
+			<li><a href="https://l2telegraph.xyz/mintOG/">Mint OG</a></li>
+			<li><a href="https://l2telegraph.xyz/stat/">Live Stat</a></li>
+		</ul>
+		<div class="header__btn"><button class="l2telegraph__button" onclick="connect()" id="connect">Connect Metamask</button></div>
+	</div>
+</header>
+
+			<main class="page">
+				<div class="l2telegraph">
+					<div class="l2telegraph__container">
+						<p>Bridge NFT via LayerZero technologies in only 2 steps.</p>
+
+						<div class="l2telegraph__block">
+							<div class="l2telegraph__item item-l2telegraph _from">
+								<div class="item-l2telegraph__img"><img src="images/zksync.png"></div>
+								<div class="item-l2telegraph__content">
+									<div class="item-l2telegraph__txt">From</div>
+									<div class="item-l2telegraph__link">zkSync</div>
+								</div>
+							</div>
+							<img class="_rev" src="fonts/rev.svg" alt>
+							<div class="l2telegraph__item item-l2telegraph _to">
+								<div class="item-l2telegraph__img"><img src="images/nova.png" alt></div>
+								<div class="item-l2telegraph__content">
+									<div class="item-l2telegraph__txt">To</div>
+									<div class="item-l2telegraph__link">Arbitrum Nova</div>
+								</div>
+							</div>
+						</div>
+						<p>First step: Mint nft</p>
+						<div class="l2telegraph__btn"><button class="l2telegraph__button" onclick="connect();mint();" id="mint">MINT</button></div>
+						<p>Second step: Bridge NFT</p>
+						<p>NFT ID will be added to the field below automatically after minting.</p>
+						<p>You must remember nft id for If some reason you have not completed bridge you can continue later.<br><br></p><div style="font-size:10px" align="right"><a href="https://twitter.com/l2telegraph/status/1673990649119637512" target="_blank">I can't find nft id</a></div><p></p>
+						<div class="l2telegraph__wp">
+							<div class="l2telegraph__input">
+								<label for="id">NFT ID</label>
+								<input type="text" id="idnft" placeholder="Your minted nft id">
+							</div>
+							<div class="l2telegraph__input">
+								<label for="feeds">l0 fees</label>
+								<input type="text" id="feeds" value="0.0001">
+							</div>
+						</div>
+						<div class="l2telegraph__btn">
+<br><span id="txid" value="Your TX:"></span><br><span id="txlz" value="Your TX:"></span><br><br>
+<button class="l2telegraph__button" onclick="connect();execute();" id="bridge">Bridge NFT</button></div>
+					</div>
+				</div>
+			</main>
+			<footer class="footer">
+	<div class="footer__container ">
+		<a href="https://layerzero.network/" class="footer__l"><img src="fonts/powered-by-layerzero.svg" alt></a>
+		<a href="https://twitter.com/intent/follow?screen_name=l2telegraph" class="footer__r"><img src="images/twitter.png" alt>Twitter</a>
+	</div>
+</footer>
+		</div>
+		<div class="popup popup_popup popup_from">
+	<div class="popup__content">
+		<div class="popup__body">
+			<div class="popup__close"></div>
+			<div class="popup__title">Source network</div>
+			<div class="popup__name"></div>
+			<div class="popup__item" id="zksync" data-defaultfrom data-from-items="nova,bnb,zkevm,optimism,avalanche,arbitrum,polygon,fantom,meter">
+				<img src="images/zksync.png" alt>
+				<div class="popup__inf">zkSync Era</div>
+			</div>
+
+			<div class="popup__item" id="nova" data-from-items="bnb,optimism,avalanche,arbitrum,polygon,fantom,meter">
+				<img src="images/nova.png" alt>
+				<div class="popup__inf">Arbitrum Nova</div>
+			</div>
+
+			<div class="popup__item" id="zkevm" data-from-items="bnb,optimism,avalanche,arbitrum,polygon">
+				<img src="images/polygonzkevm.png" alt>
+				<div class="popup__inf">Polygon zkEVM</div>
+			</div>
+
+			<div class="popup__item" id="arbitrum" data-from-items="nova,bnb,zkevm,optimism,avalanche,polygon,fantom,meter">
+				<img src="images/arbitrum.png" alt>
+				<div class="popup__inf">Arbitrum</div>
+			</div>
+
+			<div class="popup__item" id="bnb" data-from-items="nova,arbitrum,zkevm,optimism,avalanche,polygon,fantom,meter">
+				<img src="images/bnb.png" alt>
+				<div class="popup__inf">BNB Chain</div>
+			</div>
+
+		</div>
+	</div>
+</div>
+
+<div class="popup popup_popup popup_to">
+	<div class="popup__content">
+		<div class="popup__body">
+			<div class="popup__close"></div>
+			<div class="popup__title">Destination Network</div>
+			<div class="popup__name"></div>
+
+			<div class="popup__item" id="nova" data-defaultto>
+				<img src="images/nova.png" alt>
+				<div class="popup__inf">Arbitrum Nova</div>
+			</div>
+
+			<div class="popup__item" id="zksync">
+				<img src="images/zksync.png" alt>
+				<div class="popup__inf">zkSync Era</div>
+			</div>
+
+			<div class="popup__item" id="bnb">
+				<img src="images/bnb.png">
+				<div class="popup__inf">BNB Chain</div>
+			</div>
+
+			<div class="popup__item" id="zkevm">
+				<img src="images/polygonzkevm.png">
+				<div class="popup__inf">Polygon zkEVM</div>
+			</div>
+
+			<div class="popup__item" id="optimism">
+				<img src="images/optimism.png">
+				<div class="popup__inf">Optimism</div>
+			</div>
+
+			<div class="popup__item" id="avalanche">
+				<img src="images/avalanche.png">
+				<div class="popup__inf">Avalanche</div>
+			</div>
+
+			<div class="popup__item" id="arbitrum">
+				<img src="images/arbitrum.png">
+				<div class="popup__inf">Arbitrum</div>
+			</div>
+
+			<div class="popup__item" id="polygon">
+				<img src="images/polygon.png">
+				<div class="popup__inf">Polygon</div>
+			</div>
+
+			<div class="popup__item" id="fantom">
+				<img src="images/fantom.png">
+				<div class="popup__inf">Fantom</div>
+			</div>
+
+			<div class="popup__item" id="meter">
+				<img src="images/meter.png">
+				<div class="popup__inf">Meter (MTR)</div>
+			</div>
+
+
+
+		</div>
+	</div>
+</div>
+
+		<!-- Swiper -->
+<!-- <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script> -->
+<!-- <script src="https://unpkg.com/axios@1.1.2/dist/axios.min.js"></script> -->
+<script src="js/vendorsNFT.min.js"></script>
+<script src="js/app.min.js"></script>
+<script src="js/bridgeNFT.js"></script>
+	
+</body></html>
